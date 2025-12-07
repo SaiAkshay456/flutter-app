@@ -1,33 +1,56 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import '../services/authService.dart';
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
+  const Login({super.key});
+
+  @override
+  State<Login> createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  void handleSignIn() async {
+    final email = emailController.text.trim();
+    final password = passwordController.text.trim();
+    final user = await authSignUp(email, password);
+    if (user != null) {
+      print("sign in successful:${user.email}");
+    } else {
+      print("Signup fail");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Dashboard"),
-        actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.notifications)),
-          IconButton(onPressed: () {}, icon: Icon(Icons.settings)),
-        ],
-      ),
       body: Center(
         child: Column(
-          mainAxisAlignment: .center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-              width: 320,
+              width: 340,
               child: TextField(
-                decoration: InputDecoration(labelText: "Enter mail"),
+                decoration: InputDecoration(labelText: "Email"),
+                controller: emailController,
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 30),
             SizedBox(
-              width: 320,
+              width: 340,
               child: TextField(
-                decoration: InputDecoration(labelText: "Enter Password"),
+                decoration: InputDecoration(labelText: "Password"),
+                controller: passwordController,
                 obscureText: true,
+              ),
+            ),
+            SizedBox(height: 30),
+            SizedBox(
+              width: 200,
+              child: ElevatedButton(
+                onPressed: handleSignIn,
+                child: Text("Sign In"),
               ),
             ),
           ],
