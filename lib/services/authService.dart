@@ -9,18 +9,7 @@ Future<User?> authSignUp(String email, String password) async {
     );
     return userCredential.user;
   } on FirebaseAuthException catch (e) {
-    String message = "";
-    if (e.code == 'weak-password') {
-      print('The password is too weak.');
-      message = 'The password is too weak.';
-    } else if (e.code == 'email-already-in-use') {
-      print('The account already exists for that email.');
-      message = 'The account already exists for that email.';
-    } else {
-      print('Firebase Auth Error: ${e.code}');
-      message = 'Firebase Auth Error: ${e.code}';
-    }
-    return null;
+    throw e.message ?? 'Authentication failed';
   } catch (e) {
     print(e);
     return null;

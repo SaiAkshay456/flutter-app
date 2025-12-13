@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/authService.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -11,19 +12,44 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  void handleSignIn() async {
+  void showPopup(String message) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text("Message"),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("OK"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void handleSignUp() async {
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
-    final user = await authSignUp(email, password);
-    if (user != null) {
-      print("sign in successful:${user.email}");
-    } else {
-      print("Signup fail");
+    if (email.isEmpty || password.isEmpty) {
+      showPopup("Email and password required");
+      return;
+    }
+    try {
+      final user = await authSignUp(email, password);
+      if (user != null) {
+        showPopup("Successfully login");
+      } else {
+        showPopup("login failed");
+      }
+    } catch (err) {
+      showPopup(err.toString());
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("🔥 Login build called");
     return Scaffold(
       body: Center(
         child: Column(
@@ -49,7 +75,7 @@ class _LoginState extends State<Login> {
             SizedBox(
               width: 200,
               child: ElevatedButton(
-                onPressed: handleSignIn,
+                onPressed: handleSignUp,
                 child: Text("Sign In"),
               ),
             ),
