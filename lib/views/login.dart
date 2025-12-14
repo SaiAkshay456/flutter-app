@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/services/practice1.dart';
 import '../services/authService.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -39,6 +40,10 @@ class _LoginState extends State<Login> {
       final user = await authSignUp(email, password);
       if (user != null) {
         showPopup("Successfully login");
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => DarkTheme()),
+        );
       } else {
         showPopup("login failed");
       }

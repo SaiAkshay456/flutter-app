@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_project/services/practice1.dart';
 import 'home.dart';
 import 'login.dart';
 
@@ -11,7 +12,7 @@ class Authwrapper extends StatelessWidget {
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return const Home();
+          return DarkTheme();
         }
         return const Login();
       },
