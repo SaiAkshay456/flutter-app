@@ -15,3 +15,16 @@ Future<User?> authSignUp(String email, String password) async {
     return null;
   }
 }
+
+authSignIn(String email, String password) async {
+  try {
+    UserCredential userCred = await _auth.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    return userCred.user;
+  } catch (err) {
+    print(err);
+    return null;
+  }
+}

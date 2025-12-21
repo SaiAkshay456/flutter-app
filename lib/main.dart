@@ -14,11 +14,11 @@ void main() async {
   } catch (e) {
     print(e);
   }
-  runApp(MyApp());
+  runApp(AkshayApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class AkshayApp extends StatelessWidget {
+  const AkshayApp({super.key});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
